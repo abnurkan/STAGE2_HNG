@@ -72,7 +72,7 @@ class LoginView(APIView):
 
 
 
-#3 fetched user info ,
+#3 fetched user info 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, id, *args, **kwargs):
@@ -92,38 +92,27 @@ class UserDetailView(APIView):
 
 
 
-
-
 #4 user can get all organisation he belons to  
-class OrganisationListView(ListAPIView):
-    serializer_class = OrganisationSerializer
-    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        user = self.request.user
         return Organisation.objects.filter(users=user)
 
 
-#5 login user get single organisation record
-
-class OrganisationDetailView(APIView):
+# 4 user can get all organisation he belons to   and can create new organisation
+class Organisations(APIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = OrganisationSerializer
 
-    def get(self, request, orgId, *args, **kwargs):
-        organisation = get_object_or_404(Organisation, id=orgId)
-        serializer = OrganisationSerializer(organisation)
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        organisations = Organisation.objects.filter(users=user)
+        serializer = OrganisationSerializer(organisations, many=True)
         return Response({
             "status": "success",
-            "message": "Organisation fetched successfully",
+            "message": "Organisations fetched successfully",
             "data": serializer.data
         }, status=status.HTTP_200_OK)
-
-
-#6 user can create new Organisation 
-
-class OrganisationCreateView(APIView):
-    permission_classes = [IsAuthenticated]
-
+    
+     #user can create new organisation
     def post(self, request, *args, **kwargs):
         serializer = OrganisationSerializer(data=request.data)
         if serializer.is_valid():
@@ -140,8 +129,23 @@ class OrganisationCreateView(APIView):
             "statusCode": 400
         }, status=status.HTTP_400_BAD_REQUEST)
 
+     
+#5 login user get single organisation record
 
-7. #added user to organisation
+class OrganisationDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, orgId, *args, **kwargs):
+        organisation = get_object_or_404(Organisation, id=orgId)
+        serializer = OrganisationSerializer(organisation)
+        return Response({
+            "status": "success",
+            "message": "Organisation fetched successfully",
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
+    
+    
+6. #added user to a particularorganisation
 class AddUserToOrganisationView(APIView):
     permission_classes = [IsAuthenticated]
 
