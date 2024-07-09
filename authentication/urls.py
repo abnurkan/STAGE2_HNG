@@ -15,18 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
-from .views import RegisterView, LoginView
-from .views import RegisterView, LoginView, OrganisationListView
-from .views import RegisterView, LoginView, OrganisationDetailView, OrganisationCreateView, AddUserToOrganisationView, UserDetailView
+from django.urls import path
+from .views import RegisterView, LoginView, OrganisationDetailView, Organisations, AddUserToOrganisationView, UserDetailView
 
 
 urlpatterns = [
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
-    path('organisations/<str:orgId>/', OrganisationDetailView.as_view(), name='organisation-detail'),
-    path('organisations/', OrganisationDetailView.as_view(), name='organisation-create'),
-    path('organisations/<str:orgId>/users/', AddUserToOrganisationView.as_view(), name='add-user-to-organisation'),
-    path('users/<int:userId>/', UserDetailView.as_view(), name='user-detail'),
+    path('api/users/<int:userId>/', UserDetailView.as_view(), name='user-detail'),
+    path('api/organisations/', Organisations.as_view(), name='organisation-create'),
+    path('api/organisations/<str:orgId>/', OrganisationDetailView.as_view(), name='single-organisation-detail'),
+    path('api/organisations/<str:orgId>/users/', AddUserToOrganisationView.as_view(), name='add-user-to-organisation'),
 ]
 
