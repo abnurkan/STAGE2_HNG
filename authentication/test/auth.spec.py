@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from authentication.models import User, Organisation
 from rest_framework_simplejwt.tokens import RefreshToken
+
 # Create your tests here.
-# authentication/test_authentication.py
 
 
 class AuthenticationTests(APITestCase):
