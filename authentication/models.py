@@ -18,14 +18,13 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, firstName, lastName, password):        
         return self.create_user(email, firstName, lastName, password)
 
-class User(AbstractBaseUser):
-    #userId = models.AutoField(primary_key=True)
+class User(AbstractBaseUser):    
     userId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    firstName = models.CharField(max_length=30, validators=[MinLengthValidator(2)])
-    lastName = models.CharField(max_length=30, validators=[MinLengthValidator(2)])
+    firstName = models.CharField(max_length=255, validators=[MinLengthValidator(2)])
+    lastName = models.CharField(max_length=255, validators=[MinLengthValidator(2)])
     email = models.EmailField(unique=True, validators=[EmailValidator()])      #must be unique
-    password = models.CharField(max_length=15, validators=[MinLengthValidator(10)])
-    phone = models.CharField(max_length=15, validators=[MinLengthValidator(10)])
+    password = models.CharField(max_length=255, validators=[MinLengthValidator(10)])
+    phone = models.CharField(max_length=255, validators=[MinLengthValidator(10)])
     organisations = models.ManyToManyField('Organisation', related_name='users', blank=True)
 
     USERNAME_FIELD = 'email'  #Specifies that the email and password field should be used as the unique identifier for authentication.
@@ -38,7 +37,7 @@ class User(AbstractBaseUser):
 # Define the Organisation Model
 
 class Organisation(models.Model):
-    orgId = models.AutoField(primary_key=True)
+    orgId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     def __str__(self):

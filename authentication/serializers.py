@@ -3,8 +3,7 @@ from .models import User, Organisation
 
 #Create serializers for User and Organisation.
 class OrganisationSerializer(serializers.ModelSerializer):
-    #orgId = serializers.CharField(source='id', read_only=True)
-    #orgId = serializers.IntegerField(read_only=True)
+  
     orgId = serializers.UUIDField(source='id', read_only=True)
 
 
@@ -14,8 +13,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
         fields = ['orgId', 'name', 'description']
 
 class UserSerializer(serializers.ModelSerializer):
-    #userId = serializers.CharField(read_only=True)
-    #userId = serializers.IntegerField(read_only=True)
+    
     userId = serializers.UUIDField(source='id', read_only=True)
 
 

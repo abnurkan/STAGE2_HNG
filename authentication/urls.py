@@ -22,7 +22,7 @@ from .views import RegisterView, LoginView, OrganisationDetailView, Organisation
 urlpatterns = [
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
-    path('api/users/<int:userId>/', UserDetailView.as_view(), name='user-detail'),
+    path('api/users/<str:userId>/', UserDetailView.as_view(), name='user-detail'),
     path('api/organisations/', Organisations.as_view(), name='organisation-create'),
     path('api/organisations/<str:orgId>/', OrganisationDetailView.as_view(), name='single-organisation-detail'),
     path('api/organisations/<str:orgId>/users/', AddUserToOrganisationView.as_view(), name='add-user-to-organisation'),
